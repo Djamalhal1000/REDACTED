@@ -71,9 +71,20 @@
 
     form.addEventListener('submit', e => {
       e.preventDefault();
-      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-        .then(() => window.location.href = 'https://docs.google.com/document/d/1CGXsfc47U_BLFO14njutIZZq4__a0Ym6JKtJ_LHzqio')
-        .catch(error => alert('Ошибка. Попробуйте позже.'));
+
+      const formData = new FormData(form);
+      const data = new URLSearchParams();
+      for (const pair of formData.entries()) {
+        data.append(pair[0], pair[1]);
+      }
+
+      fetch(scriptURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: data
+      })
+      .then(() => window.location.href = 'https://docs.google.com/document/d/1CGXsfc47U_BLFO14njutIZZq4__a0Ym6JKtJ_LHzqio')
+      .catch(error => alert('Ошибка. Попробуйте позже.'));
     });
   </script>
 </body>
